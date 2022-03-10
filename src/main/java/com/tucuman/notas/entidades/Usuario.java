@@ -5,11 +5,9 @@
  */
 package com.tucuman.notas.entidades;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -17,17 +15,16 @@ import org.hibernate.annotations.GenericGenerator;
  * @author nahue
  */
 @Entity
-public class Nota {
+public class Usuario {
     
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     
-    private String contenido;
+    private String nombre;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Usuario usuario;
+    private Integer edad;
 
     public String getId() {
         return id;
@@ -37,20 +34,21 @@ public class Nota {
         this.id = id;
     }
 
-    public String getContenido() {
-        return contenido;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setContenido(String contenido) {
-        this.contenido = contenido;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Integer getEdad() {
+        return edad;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setEdad(Integer edad) {
+        this.edad = edad;
     }
+    
     
 }

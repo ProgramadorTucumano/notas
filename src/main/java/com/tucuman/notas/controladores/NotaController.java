@@ -6,6 +6,7 @@
 package com.tucuman.notas.controladores;
 
 import com.tucuman.notas.entidades.Nota;
+import com.tucuman.notas.entidades.Usuario;
 import com.tucuman.notas.servicios.NotaServicio;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,19 +31,32 @@ public class NotaController {
     private NotaServicio notaServicio;
     
     @GetMapping("")
-    public String formulario() {
+    public String formulario(Model modelo) {
+        Nota nota = new Nota();
+        nota.setUsuario(new Usuario());
+        modelo.addAttribute("nota", nota);
         return "nota-formulario";
     }
     
     @PostMapping("/save")
-    public String formularioData(@RequestParam("contenido") String cotenido) {
+    public String formularioData(@RequestParam("contenido") String cotenido,
+            @RequestParam("nombreUsuario") String nombre,
+            @RequestParam("edadUsuario") Integer edad,
+            Model modelo) {
+        Nota nota=new Nota();
         try {
-            Nota nota = new Nota();
             nota.setContenido(cotenido);
+            Usuario usuario = new Usuario();
+            usuario.setNombre(nombre);
+            usuario.setEdad(edad);
+            nota.setUsuario(usuario);
             notaServicio.guardaNota(nota);
+            modelo.addAttribute("nota", nota);
             return "nota-formulario";
         } catch (Exception ex) {
             ex.printStackTrace();
+            modelo.addAttribute("nota", nota);
+            modelo.addAttribute("error", ex.getMessage());
             return "nota-formulario";
         }
     }

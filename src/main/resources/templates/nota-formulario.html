@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
@@ -8,8 +8,17 @@
     <body>
         <h2>Nota Frmulario</h2>
         <a href="/nota/list">Ir a la lista de notas</a>
+        <br>
+        <span th:if="${error != null}"  style="color: red;" th:text="${error}"></span>
         <form action="/nota/save" method="POST">
-            <input type="text" name="contenido"/>
+            <label for="contenido" >Contenido</label>
+            <br>
+            <input type="text" name="contenido" placeholder="escribí el contenido" th:value="${nota.contenido}"/>
+            <br>
+            <input type="text" name="nombreUsuario" placeholder="escribí el nombre del usuario" th:value="${nota.usuario.nombre}"/>
+            <br>
+            <input type="number" name="edadUsuario"  placeholder="ingresa la edad del usario" th:value="${nota.usuario.edad == null ? 0 : nota.usuario.edad}"/>
+            <br>
             <input type="submit"/>
         </form>
     </body>
