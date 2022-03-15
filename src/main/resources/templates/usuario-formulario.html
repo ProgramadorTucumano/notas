@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <p th:if="${error != null }" th:text="${error}" style="color: red;"> </p>
+        <p th:if="${success != null }" th:text="${success}" style="color: green;"> </p>
+        <form action="/usuario/registro" method="POST">
+            <input type="text" name="username" th:value="${username}"/>
+            <input type="password" name="password" th:value="${password}"/>
+            <input type="password" name="password2" th:value="${password2}"/>
+            <input type="submit" value="Registrarse" />
+        </form>
+    </body>
+</html>

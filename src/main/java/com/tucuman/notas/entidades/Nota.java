@@ -5,9 +5,15 @@
  */
 package com.tucuman.notas.entidades;
 
+import com.tucuman.notas.enums.Status;
+import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -23,7 +29,14 @@ public class Nota {
     private String id;
     
     private String contenido;
-
+    
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
+    
+    
     public String getId() {
         return id;
     }
@@ -38,6 +51,22 @@ public class Nota {
 
     public void setContenido(String contenido) {
         this.contenido = contenido;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
     
 }

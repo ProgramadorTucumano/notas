@@ -6,6 +6,7 @@
 package com.tucuman.notas.servicios;
 
 import com.tucuman.notas.entidades.Nota;
+import com.tucuman.notas.enums.Status;
 import com.tucuman.notas.repositorios.NotaRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class NotaServicio {
     private NotaRepository notaRepository;
     
     public Nota guardaNota(Nota nota) throws Exception {
+        
         if (nota.getContenido().isEmpty()) {
             throw new Exception("La nota no puede estar vacia");
         }
@@ -30,5 +32,9 @@ public class NotaServicio {
     
     public List<Nota> listAll() {
         return notaRepository.findAll();
+    }
+    
+    public Nota buscarNotaPorId(String id) {
+        return notaRepository.getById(id);
     }
 }

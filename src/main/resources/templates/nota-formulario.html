@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
@@ -9,7 +9,16 @@
         <h2>Nota Frmulario</h2>
         <a href="/nota/list">Ir a la lista de notas</a>
         <form action="/nota/save" method="POST">
-            <input type="text" name="contenido"/>
+            <p th:if='${success != null}' th:text="${success}" style="color: green;"></p>
+            <input hidden name='id' th:value='${nota.id}' />
+            <input type="text" name="contenido" th:value='${nota.contenido}'/>
+            <input type="date" name="fecha" th:value='${nota.fecha}'/>
+            <select name="status">
+                <option th:each=" variableQueRepresentaElItem : ${T(com.tucuman.notas.enums.Status).values()}"
+                            th:text="${variableQueRepresentaElItem}" th:value="${variableQueRepresentaElItem}"
+                            th:selected='${nota.status}'>
+            </option>
+            </select>
             <input type="submit"/>
         </form>
     </body>

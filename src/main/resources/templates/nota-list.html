@@ -15,18 +15,22 @@ and open the template in the editor.
         
         <a href="/nota">Ir al formulario</a>
         
-        <table>
+        <table border="1">
             <thead>
                 <tr>
+                    <th>N°</th>
                     <th>Contenido</th>
+                    <th>Status</th>
+                    <th>Editar</th>
                 </tr>
             </thead>
                 
             <tbody>
-                <tr th:each="pepe : ${listaDeNotas}">
-                    <td th:text="${pepe.contenido}">
-                        
-                    </td>
+                <tr th:each="pepe, micaela : ${listaDeNotas}">
+                    <td th:text="${micaela.count}" ></td>
+                    <td th:text="${pepe.contenido}"></td>
+                    <td th:tex="${pepe.status}"></td>
+                    <td ><a th:href="@{/nota/modificar(notaId=${pepe.id})}" th:text="'Editar'"></a></td>
                 </tr>
             </tbody>
         </table>

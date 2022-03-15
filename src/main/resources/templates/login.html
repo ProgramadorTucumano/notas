@@ -6,17 +6,15 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Notas</title>
+        <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1>Este es el Index de mi pagina</h1>
-        <br>
-        <a href="/nota/list">Ir a la lista de notas</a>
-        <br>
-        <br>
-        <a href="/nota">Ir al formulario</a>
-
+        <form action="/logincheck" method="POST">
+            <input type="text" name="username">
+            <input type="password" name="password">
+            <input type="submit" value="Log In">
+        </form>
     </body>
 </html>
