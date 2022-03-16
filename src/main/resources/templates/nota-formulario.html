@@ -8,7 +8,7 @@
     <body>
         <h2>Nota Frmulario</h2>
         <a href="/nota/list">Ir a la lista de notas</a>
-        <form action="/nota/save" method="POST">
+        <form th:action="@{/nota/save}" method="POST">
             <p th:if='${success != null}' th:text="${success}" style="color: green;"></p>
             <input hidden name='id' th:value='${nota.id}' />
             <input type="text" name="contenido" th:value='${nota.contenido}'/>

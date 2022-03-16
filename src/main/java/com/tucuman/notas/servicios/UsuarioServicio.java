@@ -6,11 +6,13 @@
 package com.tucuman.notas.servicios;
 
 import com.tucuman.notas.entidades.Usuario;
+import com.tucuman.notas.enums.Rol;
 import com.tucuman.notas.repositorios.UsuarioRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,19 +26,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UsuarioServicio implements UserDetailsService {
-    
+
     @Autowired
     private UsuarioRepository usuarioRepository;
-    
+
     public Usuario registrarUsuario(String username, String password, String password2) throws Exception {
         if (username.isEmpty()) {
             throw new Exception("El username no puede estar vacío");
         }
-        
+
         if (password.isEmpty()) {
             throw new Exception("La contraseña no puede estar vacía");
         }
-        
+
         Usuario usuario = usuarioRepository.findByUsername(username);
         if (usuario != null) {
             throw new Exception("El usuario ya existe, pruebe con otro nombre");
@@ -48,18 +50,24 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setUsername(username);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         usuario.setPassword(encoder.encode(password));
+        usuario.setRol(Rol.USUARIO);
         return usuarioRepository.save(usuario);
+    }
+
+    public List<Usuario> findAll() {
+        return usuarioRepository.findAll();
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             Usuario usuario = usuarioRepository.findByUsername(username);
-            List<GrantedAuthority> autoritties = new ArrayList<>();
-            return new User(username, usuario.getPassword(), autoritties);
+            List<GrantedAuthority> pepe = new ArrayList<>();
+            pepe.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRol()));
+            return new User(username, usuario.getPassword(), pepe);
         } catch (Exception e) {
             throw new UsernameNotFoundException("El usuario no existe");
         }
     }
-    
+
 }

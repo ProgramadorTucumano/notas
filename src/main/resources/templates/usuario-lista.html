@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h2>Lista de Usuarios</h2>
+        
+        <a href="/nota">Ir al formulario</a>
+        
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Nickname</th>
+                    <th>Rol</th>
+                    <th>Editar</th>
+                </tr>
+            </thead>
+                
+            <tbody>
+                <tr th:each="pepe, micaela : ${usuarios}">
+                    <td th:text="${micaela.count}" ></td>
+                    <td th:text="${pepe.username}"></td>
+                    <td th:text="${pepe.rol}"></td>
+                    <td ><a th:href="@{/usuario/modificar(usuarioId=${pepe.id})}" th:text="'Editar'"></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

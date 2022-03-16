@@ -11,28 +11,38 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h2>Lista de Notas</h2>
-        
-        <a href="/nota">Ir al formulario</a>
-        
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>N°</th>
-                    <th>Contenido</th>
-                    <th>Status</th>
-                    <th>Editar</th>
-                </tr>
-            </thead>
-                
-            <tbody>
-                <tr th:each="pepe, micaela : ${listaDeNotas}">
-                    <td th:text="${micaela.count}" ></td>
-                    <td th:text="${pepe.contenido}"></td>
-                    <td th:tex="${pepe.status}"></td>
-                    <td ><a th:href="@{/nota/modificar(notaId=${pepe.id})}" th:text="'Editar'"></a></td>
-                </tr>
-            </tbody>
-        </table>
-    </body>
+        <p sec:authorize="isAuthenticated()">Logged user: <span sec:authentication="name"></span></p>
+        <p sec:authorize="isAuthenticated()">
+            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="POST">
+                <input sec:authorize="isAuthenticated()" type="submit" value="Log out">
+            </form>
+        </p>
+        <p sec:authorize="!isAuthenticated()">
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
+        </p>
+
+    <h2>Lista de Notas</h2>
+
+    <a href="/nota">Ir al formulario</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Contenido</th>
+                <th>Status</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="pepe, micaela : ${listaDeNotas}">
+                <td th:text="${micaela.count}" ></td>
+                <td th:text="${pepe.contenido}"></td>
+                <td th:text="${pepe.status}"></td>
+                <td ><a th:href="@{/nota/modificar(notaId=${pepe.id})}" th:text="'Editar'"></a></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
 </html>

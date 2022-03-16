@@ -10,10 +10,10 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    <body>
+    <body >
         <p th:if="${error != null }" th:text="${error}" style="color: red;"> </p>
         <p th:if="${success != null }" th:text="${success}" style="color: green;"> </p>
-        <form action="/usuario/registro" method="POST">
+        <form th:action="@{/usuario/registro}" method="POST">
             <input type="text" name="username" th:value="${username}"/>
             <input type="password" name="password" th:value="${password}"/>
             <input type="password" name="password2" th:value="${password2}"/>

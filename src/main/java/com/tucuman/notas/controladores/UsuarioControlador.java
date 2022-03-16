@@ -7,9 +7,11 @@ package com.tucuman.notas.controladores;
 
 import com.tucuman.notas.entidades.Usuario;
 import com.tucuman.notas.servicios.UsuarioServicio;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,6 +55,14 @@ public class UsuarioControlador {
             modelo.addAttribute("error", ex.getMessage());
             return "usuario-formulario";
         }
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRADOR')")
+    @GetMapping("/lista")
+    public String lista(Model modelo) {
+        List<Usuario> usuarios = usuarioServicio.findAll();
+        modelo.addAttribute("usuarios", usuarios);
+        return "usuario-lista";
     }
 
 }
