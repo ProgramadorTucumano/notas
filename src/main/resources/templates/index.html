@@ -4,23 +4,46 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Notas</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        
+
         <h1>Este es el Index de mi pagina</h1>
         <br>
         <a href="/nota/list">Ir a la lista de notas</a>
         <br>
         <br>
         <a href="/nota">Ir al formulario</a>
-        
+
         <form th:action="@{/logout}" method="POST">
             <input type="submit" value="Log out">
         </form>
+
+        <p th:if="${session.usuario != null}">Bienvenid@ <span th:text="${session.usuario.username}"></span>. Tu rol es <span th:text="${session.usuario.rol}"></span></p>
+        <p th:if="${session.notas == null}"> No has guardado ninguna nota en tu sesion actual</p>
+        <table th:if="${session.notas != null}" border="1">
+            <p>Estas son las notas que has creado durante tu navegacion actual</p>
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Contenido</th>
+                    <th>Status</th>
+                    <th>Editar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="pepe, micaela : ${session.notas}">
+                    <td th:text="${micaela.count}" ></td>
+                    <td th:text="${pepe.contenido}"></td>
+                    <td th:text="${pepe.status}"></td>
+                    <td ><a th:href="@{/nota/modificar(notaId=${pepe.id})}" th:text="'Editar'"></a></td>
+                </tr>
+            </tbody>
+        </table>
     </body>
 </html>

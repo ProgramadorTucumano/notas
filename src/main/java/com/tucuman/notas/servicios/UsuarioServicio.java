@@ -10,6 +10,7 @@ import com.tucuman.notas.enums.Rol;
 import com.tucuman.notas.repositorios.UsuarioRepository;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +20,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  *
@@ -57,12 +60,19 @@ public class UsuarioServicio implements UserDetailsService {
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
+    
+    public void agregarUsuarioALaSesion(Usuario usuario) {
+        ServletRequestAttributes attributes  = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attributes.getRequest().getSession(true);
+        session.setAttribute("usuario", usuario);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             Usuario usuario = usuarioRepository.findByUsername(username);
             List<GrantedAuthority> pepe = new ArrayList<>();
+            agregarUsuarioALaSesion(usuario);
             pepe.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRol()));
             return new User(username, usuario.getPassword(), pepe);
         } catch (Exception e) {

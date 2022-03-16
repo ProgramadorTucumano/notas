@@ -9,9 +9,11 @@ import com.tucuman.notas.entidades.Nota;
 import com.tucuman.notas.enums.Status;
 import com.tucuman.notas.servicios.NotaServicio;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,7 +51,7 @@ public class NotaController {
                                  @RequestParam("contenido") String cotenido, 
                                  @RequestParam("fecha") String fecha,
                                  @RequestParam("status") String status,
-                                    Model modelo) {
+                                    Model modelo, HttpSession session) {
         try {
             Nota nota = new Nota();
             nota.setId(id);
@@ -60,6 +62,12 @@ public class NotaController {
             nota.setFecha(parseador.parse(fecha));
             
             notaServicio.guardaNota(nota);
+            List<Nota> notas = (List<Nota>) session.getAttribute("notas");
+            if (notas == null) {
+                notas = new ArrayList<>();
+            }
+            notas.add(nota);
+            session.setAttribute("notas", notas);
             modelo.addAttribute("nota", nota);
             String success = id != null && !id.isEmpty() ? "nota modificada con exito" : "nota creada con exito";
             modelo.addAttribute("success", success);
