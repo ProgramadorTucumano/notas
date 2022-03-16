@@ -22,5 +22,10 @@ and open the template in the editor.
         <form th:action="@{/logout}" method="POST">
             <input type="submit" value="Log out">
         </form>
+        <p th:if="${error != null }" th:text="${error}" style="color: red;"> </p>
+        <form th:action="@{/elegirruta}" method="GET">
+            <input type="text" name="ruta"/>
+            <input type="submit" value="Ir"/>
+        </form>
     </body>
 </html>

@@ -30,4 +30,21 @@ public class MainController {
     public String index(Model modelo) {
         return "index";
     }
+    
+    @GetMapping("/elegirruta")
+    public String index(@RequestParam("ruta") String ruta, Model modelo,
+                                RedirectAttributes redirectAttributes) {
+        switch (ruta.toLowerCase()) {
+            case "nota":
+                ruta = "/nota";
+                break;
+            case "usuario":
+                ruta = "/usuario";
+                break;
+            default:
+        redirectAttributes.addFlashAttribute("error", "No tenemos un recursos para esa busqueda");
+                ruta = "/";
+        }
+        return "redirect:"+ruta;
+    }
 }
