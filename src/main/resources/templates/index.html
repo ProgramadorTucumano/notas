@@ -22,7 +22,7 @@ and open the template in the editor.
         <form th:action="@{/logout}" method="POST">
             <input type="submit" value="Log out">
         </form>
-
+        <p th:if="${mail != null}" th:text="${mail}"></p>
         <p th:if="${session.usuario != null}">Bienvenid@ <span th:text="${session.usuario.username}"></span>. Tu rol es <span th:text="${session.usuario.rol}"></span></p>
         <p th:if="${session.notas == null}"> No has guardado ninguna nota en tu sesion actual</p>
         <table th:if="${session.notas != null}" border="1">

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,20 +48,9 @@ public class NotaController {
     }
     
     @PostMapping("/save")
-    public String formularioData(@RequestParam("id") String id,
-                                 @RequestParam("contenido") String cotenido, 
-                                 @RequestParam("fecha") String fecha,
-                                 @RequestParam("status") String status,
-                                    Model modelo, HttpSession session) {
+    public String formularioData( Model modelo, HttpSession session,
+                                    @ModelAttribute("nota") Nota nota) {
         try {
-            Nota nota = new Nota();
-            nota.setId(id);
-            nota.setContenido(cotenido);
-            nota.setStatus(Status.valueOf(status));
-            
-            SimpleDateFormat parseador = new SimpleDateFormat("yyyy-mm-dd");
-            nota.setFecha(parseador.parse(fecha));
-            
             notaServicio.guardaNota(nota);
             List<Nota> notas = (List<Nota>) session.getAttribute("notas");
             if (notas == null) {
@@ -69,7 +59,7 @@ public class NotaController {
             notas.add(nota);
             session.setAttribute("notas", notas);
             modelo.addAttribute("nota", nota);
-            String success = id != null && !id.isEmpty() ? "nota modificada con exito" : "nota creada con exito";
+            String success = nota.getId() != null && !nota.getId().isEmpty() ? "nota modificada con exito" : "nota creada con exito";
             modelo.addAttribute("success", success);
             return "nota-formulario";
         } catch (Exception ex) {

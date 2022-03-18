@@ -8,16 +8,16 @@
     <body>
         <h2>Nota Frmulario</h2>
         <a href="/nota/list">Ir a la lista de notas</a>
-        <form th:action="@{/nota/save}" method="POST">
+        <form th:action="@{/nota/save}" method="POST" th:object="${nota}">
             <p th:if='${success != null}' th:text="${success}" style="color: green;"></p>
-            <input hidden name='id' th:value='${nota.id}' />
-            <input type="text" name="contenido" th:value='${nota.contenido}'/>
-            <input type="date" name="fecha" th:value='${nota.fecha}'/>
-            <select name="status">
+            <input hidden th:field="*{id}" />
+            <input type="text" th:field="*{contenido}"/>
+            <input type="date"  th:field="*{fecha}"/>
+            <select th:field="*{status}">
                 <option th:each=" variableQueRepresentaElItem : ${T(com.tucuman.notas.enums.Status).values()}"
-                            th:text="${variableQueRepresentaElItem}" th:value="${variableQueRepresentaElItem}"
+                            th:text="${variableQueRepresentaElItem.nombreVista}" th:value="${variableQueRepresentaElItem}"
                             th:selected='${nota.status}'>
-            </option>
+                </option>
             </select>
             <input type="submit"/>
         </form>

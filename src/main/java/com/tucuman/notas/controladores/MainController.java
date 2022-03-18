@@ -5,6 +5,7 @@
  */
 package com.tucuman.notas.controladores;
 
+import com.tucuman.notas.servicios.MailService;
 import com.tucuman.notas.servicios.NotaServicio;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,18 @@ public class MainController {
     @Autowired
     private NotaServicio notaServicio;
     
+    @Autowired
+    private MailService mailService;
+    
     @GetMapping("")
     public String index(Model modelo) {
+        return "index";
+    }
+    
+    @GetMapping("/enviarmail")
+    public String enviarMail(Model modelo) {
+        mailService.enviarEmailSimple("programacion.tucuman@gmail.com", "Saludos", "Hola soy un mail enviado desde un proyecto con spring boot");
+        modelo.addAttribute("mail", "se esta procesando el envio de mail");
         return "index";
     }
 }

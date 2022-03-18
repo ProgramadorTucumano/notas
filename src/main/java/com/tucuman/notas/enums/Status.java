@@ -10,5 +10,15 @@ package com.tucuman.notas.enums;
  * @author nahue
  */
 public enum Status {
-    IDEA, IMPORTANTE, TERMINADA
+    IDEA("Idea"), IMPORTANTE("Importante"), TERMINADA("Terminada");
+    
+    private String nombreVista;
+
+    private Status(String nombreVista) {
+        this.nombreVista = nombreVista;
+    }
+    
+    public String getNombreVista() {
+        return nombreVista;
+    }
 }
