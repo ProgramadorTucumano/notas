@@ -9,10 +9,12 @@ and open the template in the editor.
         <title>Notas</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--        <link rel="stylesheet" th:href="@{/css/mi-css.css}" href="../static/css/mi-css.css">-->
     </head>
     <body>
 
         <h1>Este es el Index de mi pagina</h1>
+        <p th:if="${error != null}" th:text="${error}"></p>
         <br>
         <a href="/nota/list">Ir a la lista de notas</a>
         <br>
@@ -45,5 +47,8 @@ and open the template in the editor.
                 </tr>
             </tbody>
         </table>
+        
+        <img sec:authorize="isAuthenticated()" th:if="${session.usuario != null and session.usuario.foto != null }" th:src="@{/foto/usuario(idUsuario=${session.usuario.id})}" alt="foto de perfil del usuario"/>
+        <img sec:authorize="isAuthenticated()" th:if="${session.usuario != null and session.usuario.foto == null }" th:src="@{/img/perfil-generico.jpg}" alt="foto de perfil del usuario"/>
     </body>
 </html>

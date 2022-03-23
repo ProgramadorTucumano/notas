@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -32,27 +34,54 @@ public class UsuarioControlador {
     private UsuarioServicio usuarioServicio;
 
     @GetMapping("")
-    public String registro(Model modelo) {
-        modelo.addAttribute("username", "");
-        modelo.addAttribute("password", "");
-        modelo.addAttribute("password2", "");
+    public String registro(Model modelo,
+            @RequestParam(name="idUsuario", required=false) String id,
+            RedirectAttributes redirectAttributes) {
+        try {
+            if (id != null) {
+                Usuario usuario = usuarioServicio.getUsuario(id);
+                modelo.addAttribute("id", usuario.getId());
+                System.out.println("id: "+id);
+                modelo.addAttribute("username", usuario.getUsername());
+             } else {
+                 modelo.addAttribute("username", "");
+                 modelo.addAttribute("password", "");
+                 modelo.addAttribute("password2", "");
+             }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "No se pudo encontrar el usuario");
+            return "redirect:/";
+        }
+        
+        
         return "usuario-formulario";
     }
 
     @PostMapping("/registro")
-    public String registroUsuario(@RequestParam("username") String username,
-            @RequestParam("password") String password,
-            @RequestParam("password2") String password2,
+    public String registroUsuario(
+            @RequestParam("id") String id,
+            @RequestParam("username") String username,
+            @RequestParam(name="password", required=false) String password,
+            @RequestParam(name="password2", required=false) String password2,
+            @RequestParam(name="file", required=false) MultipartFile file,
             Model modelo) {
         try {
-            Usuario usuario = usuarioServicio.registrarUsuario(username, password, password2);
-            modelo.addAttribute("success", "Usuario registrado con exito");
-            return "usuario-formulario";
+            Usuario usuario = usuarioServicio.registrarUsuario(id, username, password, password2, file);
+            modelo.addAttribute("success", "Usuario "+ id != null ? "editado" : "registrado"  +" con exito");
+            return id != null ? "redirect:/usuario/list" : "usuario-formulario";
         } catch (Exception ex) {
             ex.printStackTrace();
-            modelo.addAttribute("username", username);
-            modelo.addAttribute("password", password);
-            modelo.addAttribute("password2", password2);
+            if (id != null) {
+                Usuario usuario = usuarioServicio.getUsuario(id);
+                modelo.addAttribute("id", usuario.getId());
+                System.out.println("id: "+id);
+                modelo.addAttribute("username", usuario.getUsername());
+             } else {
+                 modelo.addAttribute("username", username);
+                 modelo.addAttribute("password", password);
+                 modelo.addAttribute("password2", password2);
+             }
+            
             modelo.addAttribute("error", ex.getMessage());
             return "usuario-formulario";
         }

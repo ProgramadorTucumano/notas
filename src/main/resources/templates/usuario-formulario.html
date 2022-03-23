@@ -13,11 +13,13 @@ and open the template in the editor.
     <body >
         <p th:if="${error != null }" th:text="${error}" style="color: red;"> </p>
         <p th:if="${success != null }" th:text="${success}" style="color: green;"> </p>
-        <form th:action="@{/usuario/registro}" method="POST">
+        <form th:action="@{/usuario/registro}" method="POST" enctype="multipart/form-data">
+            <input type="text" name="id" th:value="${id}" hidden/>
             <input type="text" name="username" th:value="${username}"/>
-            <input type="password" name="password" th:value="${password}"/>
-            <input type="password" name="password2" th:value="${password2}"/>
-            <input type="submit" value="Registrarse" />
+            <input th:if="${id == null}" type="password" name="password" th:value="${password}"/>
+            <input th:if="${id == null}" type="password" name="password2" th:value="${password2}"/>
+            <input type="file" name="file"/>
+            <input type="submit" th:value="${id == null ? 'Registrarse' : 'Editar'}" />
         </form>
     </body>
 </html>
