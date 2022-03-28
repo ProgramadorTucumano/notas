@@ -4,14 +4,11 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
     <head>
-        <title>Notas</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--        <link rel="stylesheet" th:href="@{/css/mi-css.css}" href="../static/css/mi-css.css">-->
     </head>
-    <body>
+    <body layout:fragment="body">
 
         <h1>Este es el Index de mi pagina</h1>
         <p th:if="${error != null}" th:text="${error}"></p>
