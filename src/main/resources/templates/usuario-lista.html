@@ -26,13 +26,16 @@ and open the template in the editor.
             </thead>
                 
             <tbody>
-                <tr th:each="pepe, micaela : ${usuarios}">
-                    <td th:text="${micaela.count}" ></td>
+                <tr  th:each="pepe, nombreCualquiera : ${usuarios}">
+                    <td th:text="${nombreCualquiera.count}" ></td>
                     <td th:text="${pepe.username}"></td>
                     <td th:text="${pepe.rol}"></td>
-                    <td ><a th:href="@{/usuario(idUsuario=${pepe.id})}" th:text="'Editar'"></a></td>
+                    <td>
+                        <a th:href="@{/usuario(idUsuario=${pepe.id})}" th:text="'Editar'"></a>
+                    </td>
                 </tr>
             </tbody>
         </table>
+        
     </body>
 </html>

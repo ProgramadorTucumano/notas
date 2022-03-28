@@ -52,8 +52,6 @@ public class UsuarioControlador {
             redirectAttributes.addFlashAttribute("error", "No se pudo encontrar el usuario");
             return "redirect:/";
         }
-        
-        
         return "usuario-formulario";
     }
 

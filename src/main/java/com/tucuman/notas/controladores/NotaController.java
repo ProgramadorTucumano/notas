@@ -35,14 +35,13 @@ public class NotaController {
     private NotaServicio notaServicio;
     
     @GetMapping("")
-    public String formulario(Model modelo) {
-        modelo.addAttribute("nota", new Nota());
-        return "nota-formulario";
-    }
-    
-    @GetMapping("/modificar")
-    public String formulario(@RequestParam(name = "notaId", required = true) String id, Model modelo) {
-        Nota nota = notaServicio.buscarNotaPorId(id);
+    public String formulario(Model modelo, @RequestParam(name = "notaId", required = false) String id) {
+        Nota nota = null;
+        if (id != null) {
+            nota = notaServicio.buscarNotaPorId(id);
+        } else {
+            nota = new Nota();
+        }
         modelo.addAttribute("nota", nota);
         return "nota-formulario";
     }
